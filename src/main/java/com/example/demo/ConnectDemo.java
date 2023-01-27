@@ -33,7 +33,9 @@ public class ConnectDemo {
                 while (rs.next()) {
                     System.out.println(
                     	rs.getInt("id") + " " +
-                    	rs.getString("name") + " " +
+                    	rs.getString("company") + " " +
+                    	rs.getString("carname")+" "+
+                    	rs.getString("carnumber")+" "+
                         rs.getDouble("gas"));
                 }           
             };
@@ -47,19 +49,33 @@ public class ConnectDemo {
 
         
         com.example.demo.CarModelRepository carModelRepository = new com.example.demo.CarModelRepository();
-		ArrayList<CarModel> carModel1 = carModelRepository.findByName("ア");
+        CarCalculator carCalculator = new CarCalculator();
+        
+		ArrayList<CarModel> carModel1 = carModelRepository.findByCarName("ア");
 		ArrayList<CarModel> carModel2 = carModelRepository.findByGas(17);
 		ArrayList<CarModel> carModel3 = carModelRepository.findById(1);
+		ArrayList<CarModel> carModel4 = carModelRepository.findByCompany("スズキ");
+		ArrayList<Double> distanceByGas1 = carCalculator.gasNeeds(carModel4, 1000);
+		
 		printCarModel(carModel1);
 		printCarModel(carModel2);
 		printCarModel(carModel3);
+		printCarModel(carModel4);
+		for (int i=0 ; i < distanceByGas1.size() ;i++ ) {
+			System.out.println(
+					distanceByGas1.get(i)
+					);
+		}
+		
 	}
 	
 	@SuppressWarnings("unused")
 	private static void printCarModel(CarModel carModel) {
 		System.out.println(
 				carModel.getId()+ " " +
-                carModel.getName()+ " " +
+                carModel.getCompany()+ " " +
+                carModel.getCarName()+ " "+
+                carModel.getCarNumber()+ " "+
                 carModel.getGas());
 		System.out.println();
 	}
@@ -68,7 +84,9 @@ public class ConnectDemo {
 		for (int i = 0 ; i < carModels.size() ; i++) {
 			System.out.println(
 					carModels.get(i).getId()+" "+
-					carModels.get(i).getName()+" "+
+					carModels.get(i).getCompany()+" "+
+					carModels.get(i).getCarName()+" "+
+					carModels.get(i).getCarNumber()+" "+
 					carModels.get(i).getGas()
 					);
 		}

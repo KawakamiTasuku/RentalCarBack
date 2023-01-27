@@ -14,19 +14,25 @@ import lombok.Data;
 @Data
 @Table(name = "car_model")
 public class CarModel {
-  public CarModel(int int1, String string, double double1) {
+  public CarModel(int id, String company, String carName, String carNumber, double gas) {
 		// TODO 自動生成されたコンストラクター・スタブ
-	  id = int1;
-	  name = string;
-	  gas = double1;
+	  this.id = id;
+	  this.company = company;
+	  this.carName = carName;
+	  this.carNumber = carNumber;
+	  this.gas = gas;
 	}
 
 @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
   private Integer id;
 
-  private String name;
+  private String company;
 
+  private String carName;
+
+  private String carNumber;
+  
   private double gas;
   
 

@@ -83,7 +83,7 @@ public class CarModelRepository implements ICarModelRepository{
 	}
 
 	@Override
-	public ArrayList<CarModel> findByName(String name) throws Exception,SQLException {
+	public ArrayList<CarModel> findByCarName(String carName) throws Exception,SQLException {
 		// TODO 自動生成されたメソッド・スタブ
 		
 		ArrayList<CarModel>  carModels = new ArrayList<CarModel>(); 
@@ -93,17 +93,17 @@ public class CarModelRepository implements ICarModelRepository{
 		String PASS = "userpass";
 		
 		
-		final String SQL1 = "select * from rentalcarlist where name like ?";
+		final String SQL1 = "select * from rentalcarlist where carname like ?";
 
 		try (
 			Connection conn = DriverManager.getConnection(URL,USER,PASS);
 			PreparedStatement ps = conn.prepareStatement(SQL1)){
             
 			//値を当てはめることをバインドという(?のやつ)
-            ps.setString(1,"%" + name + "%");
+            ps.setString(1,"%" + carName + "%");
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
-            CarModel carModel = new CarModel(rs.getInt("id"),rs.getString("name"),rs.getDouble("gas"));
+            CarModel carModel = new CarModel(rs.getInt("id"),rs.getString("company"),rs.getString("carName"),rs.getString("carNumber"),rs.getDouble("gas"));
             carModels.add(carModel);
             }
             return carModels;
@@ -135,7 +135,7 @@ public class CarModelRepository implements ICarModelRepository{
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
-            CarModel carModel = new CarModel(rs.getInt("id"),rs.getString("name"),rs.getDouble("gas"));
+            CarModel carModel = new CarModel(rs.getInt("id"),rs.getString("company"),rs.getString("carName"),rs.getString("carNumber"),rs.getDouble("gas"));
             carModels.add(carModel);
             }
             return carModels;
@@ -167,7 +167,7 @@ public class CarModelRepository implements ICarModelRepository{
             ps.setDouble(1,gas);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
-            CarModel carModel = new CarModel(rs.getInt("id"),rs.getString("name"),rs.getDouble("gas"));
+            CarModel carModel = new CarModel(rs.getInt("id"),rs.getString("company"),rs.getString("carName"),rs.getString("carNumber"),rs.getDouble("gas"));
             carModels.add(carModel);
             }
             return carModels;
@@ -178,5 +178,69 @@ public class CarModelRepository implements ICarModelRepository{
             e.printStackTrace();
             throw e;
         }
+	}
+
+	@Override
+	public ArrayList<CarModel> findByCarNumber(String carNumber) throws Exception, SQLException {
+		// TODO 自動生成されたメソッド・スタブ
+		ArrayList<CarModel>  carModels = new ArrayList<CarModel>(); 
+		
+		String URL = "jdbc:mysql://localhost:3306/userdatabase";
+		String USER = "user";
+		String PASS = "userpass";
+		
+		
+		final String SQL1 = "select * from rentalcarlist where carnumber like ?";
+
+		try (
+			Connection conn = DriverManager.getConnection(URL,USER,PASS);
+			PreparedStatement ps = conn.prepareStatement(SQL1)){
+            
+            ps.setString(1,"%" + carNumber + "%");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+            CarModel carModel = new CarModel(rs.getInt("id"),rs.getString("company"),rs.getString("carName"),rs.getString("carNumber"),rs.getDouble("gas"));
+            carModels.add(carModel);
+            }
+            return carModels;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } 
+	}
+
+	@Override
+	public ArrayList<CarModel> findByCompany(String company) throws Exception, SQLException {
+		// TODO 自動生成されたメソッド・スタブ
+		ArrayList<CarModel>  carModels = new ArrayList<CarModel>(); 
+		
+		String URL = "jdbc:mysql://localhost:3306/userdatabase";
+		String USER = "user";
+		String PASS = "userpass";
+		
+		
+		final String SQL1 = "select * from rentalcarlist where company like ?";
+
+		try (
+			Connection conn = DriverManager.getConnection(URL,USER,PASS);
+			PreparedStatement ps = conn.prepareStatement(SQL1)){
+            
+            ps.setString(1,"%" + company + "%");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+            CarModel carModel = new CarModel(rs.getInt("id"),rs.getString("company"),rs.getString("carName"),rs.getString("carNumber"),rs.getDouble("gas"));
+            carModels.add(carModel);
+            }
+            return carModels;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } 
 	}
 }
